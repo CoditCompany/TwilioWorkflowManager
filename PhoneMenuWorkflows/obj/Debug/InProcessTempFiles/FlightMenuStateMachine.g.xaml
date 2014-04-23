@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<p2:FlightMenuStateMachine xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities" xmlns:p="http://schemas.microsoft.com/workflow/2012/07/xaml/activities" xmlns:p1="wf://workflow.windows.net/$Current/$Activities" xmlns:p2="clr-namespace:PhoneMenuWorkflows;assembly=PhoneMenuWorkflows" xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PhoneMenuWorkflows</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <p2:FlightMenuStateMachine.Implementation>
+    <StateMachine>
+      <StateMachine.InitialState>
+        <State x:Name="__ReferenceID1" DisplayName="NewCall">
+          <State.Entry>
+            <Sequence>
+              <p:SetUserStatus Description="New call" />
+              <p1:RetrieveUserFlights>
+                <p1:RetrieveUserFlights.CallerId>
+                  <InArgument x:TypeArguments="x:String">
+                    <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                  </InArgument>
+                </p1:RetrieveUserFlights.CallerId>
+                <p1:RetrieveUserFlights.Flights>
+                  <OutArgument x:TypeArguments="sco:Collection(x:String)">
+                    <mca:CSharpReference x:TypeArguments="sco:Collection(x:String)">flights</mca:CSharpReference>
+                  </OutArgument>
+                </p1:RetrieveUserFlights.Flights>
+              </p1:RetrieveUserFlights>
+            </Sequence>
+          </State.Entry>
+          <State.Transitions>
+            <Transition DisplayName="Flights found">
+              <Transition.Condition>
+                <mca:CSharpValue x:TypeArguments="x:Boolean">flights.Count &gt; 0</mca:CSharpValue>
+              </Transition.Condition>
+              <Transition.To>
+                <State x:Name="__ReferenceID2" DisplayName="HasFlights">
+                  <State.Entry>
+                    <Sequence>
+                      <Sequence.Variables>
+                        <Variable x:TypeArguments="sco:Collection(x:String)" Name="options" />
+                      </Sequence.Variables>
+                      <p:SetUserStatus Description="Has flights status" />
+                      <p:BuildCollection x:TypeArguments="x:String" DisplayName="Set options">
+                        <p:BuildCollection.Result>
+                          <OutArgument x:TypeArguments="sco:Collection(x:String)">
+                            <mca:CSharpReference x:TypeArguments="sco:Collection(x:String)">options</mca:CSharpReference>
+                          </OutArgument>
+                        </p:BuildCollection.Result>
+                        <p:BuildCollection.Values>
+                          <InArgument x:TypeArguments="x:String">to check in</InArgument>
+                          <InArgument x:TypeArguments="x:String">to upgrade your flight</InArgument>
+                          <InArgument x:TypeArguments="x:String">to cancel your flight</InArgument>
+                        </p:BuildCollection.Values>
+                      </p:BuildCollection>
+                      <p1:SetNextOptions>
+                        <p1:SetNextOptions.CallerId>
+                          <InArgument x:TypeArguments="x:String">
+                            <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                          </InArgument>
+                        </p1:SetNextOptions.CallerId>
+                        <p1:SetNextOptions.NextOptions>
+                          <InArgument x:TypeArguments="sco:Collection(x:String)">
+                            <mca:CSharpValue x:TypeArguments="sco:Collection(x:String)">options</mca:CSharpValue>
+                          </InArgument>
+                        </p1:SetNextOptions.NextOptions>
+                      </p1:SetNextOptions>
+                    </Sequence>
+                  </State.Entry>
+                  <State.Transitions>
+                    <Transition DisplayName="Pressed 9">
+                      <Transition.Trigger>
+                        <p1:ReceiveCallerInput DisplayName="Press 9" ReceivedDigit="9">
+                          <p1:ReceiveCallerInput.CallerId>
+                            <InArgument x:TypeArguments="x:String">
+                              <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                            </InArgument>
+                          </p1:ReceiveCallerInput.CallerId>
+                        </p1:ReceiveCallerInput>
+                      </Transition.Trigger>
+                      <Transition.To>
+                        <State x:Name="__ReferenceID0" DisplayName="Exit" IsFinal="True">
+                          <State.Entry>
+                            <p:SetUserStatus Description="Final" />
+                          </State.Entry>
+                        </State>
+                      </Transition.To>
+                    </Transition>
+                    <Transition DisplayName="Pressed 1">
+                      <Transition.Trigger>
+                        <p1:ReceiveCallerInput DisplayName="Pressed 1" ReceivedDigit="1">
+                          <p1:ReceiveCallerInput.CallerId>
+                            <InArgument x:TypeArguments="x:String">
+                              <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                            </InArgument>
+                          </p1:ReceiveCallerInput.CallerId>
+                        </p1:ReceiveCallerInput>
+                      </Transition.Trigger>
+                      <Transition.To>
+                        <State x:Name="__ReferenceID3" DisplayName="CheckIn">
+                          <State.Entry>
+                            <Sequence>
+                              <Sequence.Variables>
+                                <Variable x:TypeArguments="sco:Collection(x:String)" Name="options" />
+                              </Sequence.Variables>
+                              <p:SetUserStatus Description="Check in" />
+                              <p:BuildCollection x:TypeArguments="x:String">
+                                <p:BuildCollection.Result>
+                                  <OutArgument x:TypeArguments="sco:Collection(x:String)">
+                                    <mca:CSharpReference x:TypeArguments="sco:Collection(x:String)">options</mca:CSharpReference>
+                                  </OutArgument>
+                                </p:BuildCollection.Result>
+                                <p:BuildCollection.Values>
+                                  <InArgument x:TypeArguments="x:String">if you want to check in luggage</InArgument>
+                                  <InArgument x:TypeArguments="x:String">if you don't need to check in luggage</InArgument>
+                                </p:BuildCollection.Values>
+                              </p:BuildCollection>
+                              <p1:SetNextOptions>
+                                <p1:SetNextOptions.CallerId>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                                  </InArgument>
+                                </p1:SetNextOptions.CallerId>
+                                <p1:SetNextOptions.NextOptions>
+                                  <InArgument x:TypeArguments="sco:Collection(x:String)">
+                                    <mca:CSharpValue x:TypeArguments="sco:Collection(x:String)">options</mca:CSharpValue>
+                                  </InArgument>
+                                </p1:SetNextOptions.NextOptions>
+                              </p1:SetNextOptions>
+                            </Sequence>
+                          </State.Entry>
+                          <State.Transitions>
+                            <Transition DisplayName="Pressed 9">
+                              <Transition.Trigger>
+                                <p1:ReceiveCallerInput DisplayName="Wait for key 9" ReceivedDigit="9">
+                                  <p1:ReceiveCallerInput.CallerId>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                                    </InArgument>
+                                  </p1:ReceiveCallerInput.CallerId>
+                                </p1:ReceiveCallerInput>
+                              </Transition.Trigger>
+                              <Transition.To>
+                                <x:Reference>__ReferenceID0</x:Reference>
+                              </Transition.To>
+                            </Transition>
+                            <Transition DisplayName="Pressed 1">
+                              <Transition.Trigger>
+                                <p1:ReceiveCallerInput DisplayName="Wait for key 1" ReceivedDigit="1">
+                                  <p1:ReceiveCallerInput.CallerId>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                                    </InArgument>
+                                  </p1:ReceiveCallerInput.CallerId>
+                                </p1:ReceiveCallerInput>
+                              </Transition.Trigger>
+                              <Transition.To>
+                                <State x:Name="__ReferenceID4" DisplayName="Luggage">
+                                  <State.Entry>
+                                    <p:SetUserStatus Description="Checking in luggage" />
+                                  </State.Entry>
+                                  <State.Transitions>
+                                    <Transition DisplayName="leave">
+                                      <Transition.Trigger>
+                                        <p1:SayGoodbye GoodbyeStatement="Don't forget to drop of your luggage at the airport.  Thank you and good bye" />
+                                      </Transition.Trigger>
+                                      <Transition.To>
+                                        <x:Reference>__ReferenceID0</x:Reference>
+                                      </Transition.To>
+                                    </Transition>
+                                  </State.Transitions>
+                                </State>
+                              </Transition.To>
+                            </Transition>
+                            <Transition DisplayName="Pressed 2">
+                              <Transition.Trigger>
+                                <p1:ReceiveCallerInput DisplayName="Wait for key 2" ReceivedDigit="2">
+                                  <p1:ReceiveCallerInput.CallerId>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                                    </InArgument>
+                                  </p1:ReceiveCallerInput.CallerId>
+                                </p1:ReceiveCallerInput>
+                              </Transition.Trigger>
+                              <Transition.To>
+                                <State x:Name="__ReferenceID5" DisplayName="NoLuggage">
+                                  <State.Entry>
+                                    <p:SetUserStatus Description="Not checking in luggage" />
+                                  </State.Entry>
+                                  <State.Transitions>
+                                    <Transition DisplayName="leave">
+                                      <Transition.Trigger>
+                                        <p1:SayGoodbye GoodbyeStatement="You can go straight to the gate.  Thank you and good bye" />
+                                      </Transition.Trigger>
+                                      <Transition.To>
+                                        <x:Reference>__ReferenceID0</x:Reference>
+                                      </Transition.To>
+                                    </Transition>
+                                  </State.Transitions>
+                                </State>
+                              </Transition.To>
+                            </Transition>
+                          </State.Transitions>
+                        </State>
+                      </Transition.To>
+                    </Transition>
+                    <Transition DisplayName="Pressed 2">
+                      <Transition.Trigger>
+                        <p1:ReceiveCallerInput DisplayName="Pressed 2" ReceivedDigit="2">
+                          <p1:ReceiveCallerInput.CallerId>
+                            <InArgument x:TypeArguments="x:String">
+                              <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                            </InArgument>
+                          </p1:ReceiveCallerInput.CallerId>
+                        </p1:ReceiveCallerInput>
+                      </Transition.Trigger>
+                      <Transition.To>
+                        <State x:Name="__ReferenceID6" DisplayName="Upgrade">
+                          <State.Entry>
+                            <Sequence>
+                              <Sequence.Variables>
+                                <Variable x:TypeArguments="sco:Collection(x:String)" Name="options" />
+                              </Sequence.Variables>
+                              <p:SetUserStatus Description="Has flights status" />
+                              <p:BuildCollection x:TypeArguments="x:String" DisplayName="Set upgrade options">
+                                <p:BuildCollection.Result>
+                                  <OutArgument x:TypeArguments="sco:Collection(x:String)">
+                                    <mca:CSharpReference x:TypeArguments="sco:Collection(x:String)">options</mca:CSharpReference>
+                                  </OutArgument>
+                                </p:BuildCollection.Result>
+                                <p:BuildCollection.Values>
+                                  <InArgument x:TypeArguments="x:String">to upgrade to business class</InArgument>
+                                  <InArgument x:TypeArguments="x:String">to upgrade to first class</InArgument>
+                                </p:BuildCollection.Values>
+                              </p:BuildCollection>
+                              <p1:SetNextOptions>
+                                <p1:SetNextOptions.CallerId>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                                  </InArgument>
+                                </p1:SetNextOptions.CallerId>
+                                <p1:SetNextOptions.NextOptions>
+                                  <InArgument x:TypeArguments="sco:Collection(x:String)">
+                                    <mca:CSharpValue x:TypeArguments="sco:Collection(x:String)">options</mca:CSharpValue>
+                                  </InArgument>
+                                </p1:SetNextOptions.NextOptions>
+                              </p1:SetNextOptions>
+                            </Sequence>
+                          </State.Entry>
+                          <State.Transitions>
+                            <Transition DisplayName="Pressed 9">
+                              <Transition.Trigger>
+                                <p1:ReceiveCallerInput DisplayName="Press 9" ReceivedDigit="9">
+                                  <p1:ReceiveCallerInput.CallerId>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                                    </InArgument>
+                                  </p1:ReceiveCallerInput.CallerId>
+                                </p1:ReceiveCallerInput>
+                              </Transition.Trigger>
+                              <Transition.To>
+                                <x:Reference>__ReferenceID0</x:Reference>
+                              </Transition.To>
+                            </Transition>
+                            <Transition DisplayName="Pressed 1">
+                              <Transition.Trigger>
+                                <p1:ReceiveCallerInput DisplayName="Pressed 1" ReceivedDigit="1">
+                                  <p1:ReceiveCallerInput.CallerId>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                                    </InArgument>
+                                  </p1:ReceiveCallerInput.CallerId>
+                                </p1:ReceiveCallerInput>
+                              </Transition.Trigger>
+                              <Transition.To>
+                                <State x:Name="__ReferenceID7" DisplayName="Business">
+                                  <State.Entry>
+                                    <p1:SayGoodbye GoodbyeStatement="you have now been upgraded to business class. thank you for calling" />
+                                  </State.Entry>
+                                  <State.Transitions>
+                                    <Transition DisplayName="leave" To="{x:Reference __ReferenceID0}" />
+                                  </State.Transitions>
+                                </State>
+                              </Transition.To>
+                            </Transition>
+                            <Transition DisplayName="Pressed 2">
+                              <Transition.Trigger>
+                                <p1:ReceiveCallerInput DisplayName="Pressed 2" ReceivedDigit="2">
+                                  <p1:ReceiveCallerInput.CallerId>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                                    </InArgument>
+                                  </p1:ReceiveCallerInput.CallerId>
+                                </p1:ReceiveCallerInput>
+                              </Transition.Trigger>
+                              <Transition.To>
+                                <State x:Name="__ReferenceID8" DisplayName="1st class">
+                                  <State.Entry>
+                                    <p1:SayGoodbye GoodbyeStatement="you have found the secret spot! will you be first?" />
+                                  </State.Entry>
+                                  <State.Exit>
+                                    <p:HttpPost>
+                                      <p:HttpPost.Uri>
+                                        <InArgument x:TypeArguments="x:String">
+                                          <mca:CSharpValue x:TypeArguments="x:String">"http://localhost/PhoneDemoApi/api/start?Caller=" + CallerID</mca:CSharpValue>
+                                        </InArgument>
+                                      </p:HttpPost.Uri>
+                                    </p:HttpPost>
+                                  </State.Exit>
+                                  <State.Transitions>
+                                    <Transition DisplayName="leave" To="{x:Reference __ReferenceID0}" />
+                                  </State.Transitions>
+                                </State>
+                              </Transition.To>
+                            </Transition>
+                          </State.Transitions>
+                        </State>
+                      </Transition.To>
+                    </Transition>
+                    <Transition DisplayName="Pressed 3">
+                      <Transition.Trigger>
+                        <p1:ReceiveCallerInput DisplayName="Pressed 3" ReceivedDigit="3">
+                          <p1:ReceiveCallerInput.CallerId>
+                            <InArgument x:TypeArguments="x:String">
+                              <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                            </InArgument>
+                          </p1:ReceiveCallerInput.CallerId>
+                        </p1:ReceiveCallerInput>
+                      </Transition.Trigger>
+                      <Transition.To>
+                        <State x:Name="__ReferenceID9" DisplayName="Cancel">
+                          <State.Entry>
+                            <Sequence>
+                              <Sequence.Variables>
+                                <Variable x:TypeArguments="sco:Collection(x:String)" Name="options" />
+                              </Sequence.Variables>
+                              <p:SetUserStatus Description="Cancel flight menu" />
+                              <p:BuildCollection x:TypeArguments="x:String" DisplayName="Set cancel options">
+                                <p:BuildCollection.Result>
+                                  <OutArgument x:TypeArguments="sco:Collection(x:String)">
+                                    <mca:CSharpReference x:TypeArguments="sco:Collection(x:String)">options</mca:CSharpReference>
+                                  </OutArgument>
+                                </p:BuildCollection.Result>
+                                <p:BuildCollection.Values>
+                                  <InArgument x:TypeArguments="x:String">to confirm you want to cancel your flight</InArgument>
+                                  <InArgument x:TypeArguments="x:String">to leave</InArgument>
+                                </p:BuildCollection.Values>
+                              </p:BuildCollection>
+                              <p1:SetNextOptions>
+                                <p1:SetNextOptions.CallerId>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                                  </InArgument>
+                                </p1:SetNextOptions.CallerId>
+                                <p1:SetNextOptions.NextOptions>
+                                  <InArgument x:TypeArguments="sco:Collection(x:String)">
+                                    <mca:CSharpValue x:TypeArguments="sco:Collection(x:String)">options</mca:CSharpValue>
+                                  </InArgument>
+                                </p1:SetNextOptions.NextOptions>
+                              </p1:SetNextOptions>
+                            </Sequence>
+                          </State.Entry>
+                          <State.Transitions>
+                            <Transition DisplayName="Pressed 9">
+                              <Transition.Trigger>
+                                <p1:ReceiveCallerInput DisplayName="Press 2" ReceivedDigit="2">
+                                  <p1:ReceiveCallerInput.CallerId>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                                    </InArgument>
+                                  </p1:ReceiveCallerInput.CallerId>
+                                </p1:ReceiveCallerInput>
+                              </Transition.Trigger>
+                              <Transition.To>
+                                <x:Reference>__ReferenceID0</x:Reference>
+                              </Transition.To>
+                            </Transition>
+                            <Transition DisplayName="Pressed 1">
+                              <Transition.Trigger>
+                                <p1:ReceiveCallerInput DisplayName="Press 1" ReceivedDigit="1">
+                                  <p1:ReceiveCallerInput.CallerId>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <mca:CSharpValue x:TypeArguments="x:String">CallerID</mca:CSharpValue>
+                                    </InArgument>
+                                  </p1:ReceiveCallerInput.CallerId>
+                                </p1:ReceiveCallerInput>
+                              </Transition.Trigger>
+                              <Transition.To>
+                                <State x:Name="__ReferenceID10" DisplayName="CancelConfirmed">
+                                  <State.Entry>
+                                    <p1:SayGoodbye GoodbyeStatement="Your flight has now been cancelled.  Thank you for your call" />
+                                  </State.Entry>
+                                  <State.Transitions>
+                                    <Transition DisplayName="leave" To="{x:Reference __ReferenceID0}" />
+                                  </State.Transitions>
+                                </State>
+                              </Transition.To>
+                            </Transition>
+                          </State.Transitions>
+                        </State>
+                      </Transition.To>
+                    </Transition>
+                  </State.Transitions>
+                </State>
+              </Transition.To>
+            </Transition>
+            <Transition DisplayName="No flights found" To="{x:Reference __ReferenceID0}">
+              <Transition.Condition>
+                <mca:CSharpValue x:TypeArguments="x:Boolean">flights.Count == 0</mca:CSharpValue>
+              </Transition.Condition>
+            </Transition>
+          </State.Transitions>
+        </State>
+      </StateMachine.InitialState>
+      <x:Reference>__ReferenceID1</x:Reference>
+      <x:Reference>__ReferenceID0</x:Reference>
+      <x:Reference>__ReferenceID2</x:Reference>
+      <x:Reference>__ReferenceID3</x:Reference>
+      <x:Reference>__ReferenceID4</x:Reference>
+      <x:Reference>__ReferenceID5</x:Reference>
+      <x:Reference>__ReferenceID6</x:Reference>
+      <x:Reference>__ReferenceID7</x:Reference>
+      <x:Reference>__ReferenceID8</x:Reference>
+      <x:Reference>__ReferenceID9</x:Reference>
+      <x:Reference>__ReferenceID10</x:Reference>
+      <StateMachine.Variables>
+        <Variable x:TypeArguments="sco:Collection(x:String)" Name="flights" />
+      </StateMachine.Variables>
+      <sads:DebugSymbol.Symbol>d1VDOlxkZW1vc1xXb3JrZmxvd01hbmFnZXJcUGhvbmVNZW51RGVtb1xQaG9uZU1lbnVXb3JrZmxvd3NcRmxpZ2h0TWVudVN0YXRlTWFjaGluZS54YW1scy8D0gMSAgEBMQfBAw8DAbYBdhd6HwMBsgFJD7gDFwMBiAGIARfwAR8CAWTCAR/QAScCAV7eAR/sAScCAVj+ARfhAh8CATS4Ah+/AicCAS/NAh/dAicCASbvAhe0Ax8CAQepAx+wAycCAQIzC0EWAwG/AUYPRmIDAbsBvQMPvQNgAwG4AXgbeHQDAbQBSxNoHgMBngFtF3MvAwGZAX8XhQEvAwGUAfUBF/sBLwMBjwHmAhfsAi8DAYoBigEbpgEmAgF1qwEfsQE3AgFwuQEfvwE3AgFr1QEf2wE3AgFmxAEjxAGKAQIBYskBJ8kBxwECAWDgASPgAY4BAgFc5QEn5QGzAQIBWoACG5wCJgIBRaECH6cCNwIBQK8CH7UCNwIBO8QCH8oCNwIBNroCI7oCugECATLPAiPPArcBAgEt0gIj2AIwAgEp8QIbjQMmAgETkgMfmAM3AgEOoAMfpgM3AgEJqwMjqwOzAQIBBTQNNGkDAccBNQ1AJgMBwAF4OHg/AwG1AU8VT3sDAbABUBVbKQMBqAFcFWcpAwGfAXAdcGMDAZsBbYkBbYwBAwGaAYIBHYIBYwMBlgF/iwF/jgEDAZUB+AEd+AFjAwGRAfUBiwH1AY4BAwGQAekCHekCYwMBjAHmAowB5gKPAQMBiwGOAR2OAXkDAYYBjwEdmQExAgF/mgEdpQExAgF2rgElrgFrAgFyqwGYAasBmwECAXG8ASW8AWsCAW25AZgBuQGbAQIBbNgBJdgBawIBaNUBmAHVAZsBAgFnxAFAxAFVAgFjyQFHyQGVAQIBYeABQOABWQIBXeUBR+UBgQECAVuEAh2EAoMBAgFWhQIdjwIxAgFPkAIdmwIxAgFGpAIlpAJrAgFCoQKRAaEClAECAUGyAiWyAmsCAT2vApMBrwKWAQIBPMcCJccCawIBOMQCkwHEApYBAgE3ugJDugKIAQIBM88CQ88ChQECAS7VAinVAqMBAgEq9QId9QKEAQIBJPYCHYADMQIBHYEDHYwDMQIBFJUDJZUDawIBEJIDkgGSA5UBAgEPowMlowNrAgELoAOSAaADlQECAQqrA0OrA4EBAgEGNCo0NAMByAE9Ez1wAwHEATgTOFkDAcEBTzJPRgMBsQFXQFdLAwGvAVlAWVUDAa4BWEBYVgMBrQFTG1N4AwGpAV8bX2EDAaQBZBtkcAMBoAGOATqOAUQDAYcBlgFIlgFnAwGFAZcBSJcBbQMBhAGSASOSAYABAwGAAZ0BI50BaQIBe6IBI6IBeAIBd4QCOoQCTgIBV4wCSIwCZAIBVY0CSI0CYQIBVIgCI4gCgAECAVCTAiOTAmkCAUuYAiOYAngCAUf1Ajr1Ak4CASX9Akj9AnECASP+Akj+AlACASL5AiP5AoABAgEehAMjhANpAgEZiQMjiQN4AgEV</sads:DebugSymbol.Symbol>
+    </StateMachine>
+  </p2:FlightMenuStateMachine.Implementation>
+</p2:FlightMenuStateMachine>

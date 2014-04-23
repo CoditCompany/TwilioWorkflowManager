@@ -1,0 +1,63 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="PhoneMenuWorkflows.RetrieveUserFlights"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:p="http://schemas.microsoft.com/workflow/2012/07/xaml/activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="CallerId" Type="InArgument(x:String)" />
+    <x:Property Name="Flights" Type="OutArgument(sco:Collection(x:String))" />
+  </x:Members>
+  <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
+  <sap2010:WorkflowViewState.IdRef>PhoneMenuWorkflows.RetrieveUserFlights_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PhoneMenuWorkflows</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <p:BuildCollection x:TypeArguments="x:String" DisplayName="Get flights" sap2010:WorkflowViewState.IdRef="BuildCollection`1_1">
+    <p:BuildCollection.Result>
+      <OutArgument x:TypeArguments="sco:Collection(x:String)">
+        <mca:CSharpReference x:TypeArguments="sco:Collection(x:String)">Flights</mca:CSharpReference>
+      </OutArgument>
+    </p:BuildCollection.Result>
+    <p:BuildCollection.Values>
+      <InArgument x:TypeArguments="x:String">BA0048 London to Seattle</InArgument>
+      <InArgument x:TypeArguments="x:String">BA0047 Seattle to London</InArgument>
+    </p:BuildCollection.Values>
+    <sads:DebugSymbol.Symbol>d1JDOlxkZW1vc1xXb3JrZmxvd01hbmFnZXJcUGhvbmVNZW51RGVtb1xQaG9uZU1lbnVXb3JrZmxvd3NcUmV0cmlldmVVc2VyRmxpZ2h0cy54YW1sBC0DOBcCAQE0LjRGAgEGNS41RgIBBTAJMGYCAQI=</sads:DebugSymbol.Symbol>
+  </p:BuildCollection>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="BuildCollection`1_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="PhoneMenuWorkflows.RetrieveUserFlights_1" sap:VirtualizedContainerService.HintSize="240,102" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

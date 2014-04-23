@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<p1:ReceiveCallerInput xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities" xmlns:p="http://schemas.microsoft.com/workflow/2012/07/xaml/activities" xmlns:p1="clr-namespace:PhoneMenuWorkflows;assembly=PhoneMenuWorkflows" xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>Microsoft.Activities</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PhoneMenuWorkflows</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <p1:ReceiveCallerInput.Implementation>
+    <Sequence>
+      <Sequence.Variables>
+        <Variable x:TypeArguments="p:SubscriptionFilter" Name="filter" />
+        <Variable x:TypeArguments="p:SubscriptionHandle" Name="subscription" />
+      </Sequence.Variables>
+      <p:BuildMatchAllFilter>
+        <p:BuildMatchAllFilter.Result>
+          <OutArgument x:TypeArguments="p:SubscriptionFilter">
+            <mca:CSharpReference x:TypeArguments="p:SubscriptionFilter">filter</mca:CSharpReference>
+          </OutArgument>
+        </p:BuildMatchAllFilter.Result>
+        <InArgument x:TypeArguments="x:String" x:Key="ReceivedDigit">
+          <mca:CSharpValue x:TypeArguments="x:String">ReceivedDigit</mca:CSharpValue>
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="CallerId">
+          <mca:CSharpValue x:TypeArguments="x:String">CallerId</mca:CSharpValue>
+        </InArgument>
+      </p:BuildMatchAllFilter>
+      <p:Subscribe>
+        <p:Subscribe.SubscriptionHandle>
+          <InArgument x:TypeArguments="p:SubscriptionHandle">
+            <mca:CSharpValue x:TypeArguments="p:SubscriptionHandle">subscription</mca:CSharpValue>
+          </InArgument>
+        </p:Subscribe.SubscriptionHandle>
+        <InArgument x:TypeArguments="p:SubscriptionFilter">
+          <mca:CSharpValue x:TypeArguments="p:SubscriptionFilter">filter</mca:CSharpValue>
+        </InArgument>
+      </p:Subscribe>
+      <p:ReceiveNotification>
+        <p:ReceiveNotification.SubscriptionHandle>
+          <InArgument x:TypeArguments="p:SubscriptionHandle">
+            <mca:CSharpValue x:TypeArguments="p:SubscriptionHandle">subscription</mca:CSharpValue>
+          </InArgument>
+        </p:ReceiveNotification.SubscriptionHandle>
+      </p:ReceiveNotification>
+      <p:Unsubscribe>
+        <InArgument x:TypeArguments="p:SubscriptionHandle">
+          <mca:CSharpValue x:TypeArguments="p:SubscriptionHandle">subscription</mca:CSharpValue>
+        </InArgument>
+      </p:Unsubscribe>
+      <sads:DebugSymbol.Symbol>d1FDOlxkZW1vc1xXb3JrZmxvd01hbmFnZXJcUGhvbmVNZW51RGVtb1xQaG9uZU1lbnVXb3JrZmxvd3NcUmVjZWl2ZUNhbGxlcklucHV0LnhhbWwMLQNWDgIBATIFPh0CARk/BUgTAgEOSQVPHQIBCFAFVBUCAQI8CTxPAgEkOQk5VAIBHzULNWMCARpCC0JhAgEURglGWQIBD0wLTGECAQlSCVJfAgED</sads:DebugSymbol.Symbol>
+    </Sequence>
+  </p1:ReceiveCallerInput.Implementation>
+</p1:ReceiveCallerInput>
